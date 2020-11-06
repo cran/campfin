@@ -1,6 +1,6 @@
-4774a0b5e54085c9e8106508521d7671 *DESCRIPTION
+e419f07eee84817540df2ebf7124d7ed *DESCRIPTION
 ecd1528e9298458b156b67c387b4e983 *NAMESPACE
-686d7d64d08683b19c938d2375910387 *NEWS.md
+2e3786c54dea5f257f1ad139f4563da3 *NEWS.md
 91636c94d255f2a8d4352770e7c8504d *R/abbrev-full.R
 01845af4d59401bf0842ccd2b0ce28da *R/add-prop.R
 be6ac33533e1e3587456f4dadedc10ed *R/campfin.R
@@ -11,7 +11,7 @@ d70ffa275151fc2498396c2b2345c03f *R/counters.R
 69e7c4f51c1535d0dbd78142a28938d7 *R/data.R
 072988ce631bfb4f9bbb98750f19f6bb *R/expand-abbrev.R
 cae0b92d1905daa29de57723fe072688 *R/explore-plot.R
-7759cf9b804bc20ad42346dcf8a8ee45 *R/fetch-city.R
+a789a83d661dd2e1e7b206a75ed5bf68 *R/fetch-city.R
 8577b86db26e2e4ed62776cac98f9f5c *R/file-encoding.R
 209e8921b647f334f1050ffa875a47d7 *R/files-new.R
 9a3f31a03d74a38e79c0dc3f1da0c341 *R/flag-dupes.R
@@ -43,8 +43,8 @@ add451e0f34009a3d60ff1f0e444e3c2 *R/str-normal.R
 9af944949b953434868e209fb9775cd5 *R/url2path.R
 3b4c229239e533257f8114930a3289f3 *R/use-diary.R
 65cef5e0674056f6fc07dd2b3ca85c13 *R/utils-pipe.R
-c6b7f65c6bc9feb0e4a9a71bacc3bc9f *README.md
-c013fe367f6479a572779115279ac6c6 *build/vignette.rds
+445aaa403afd38b6fb8b46270d1f1be9 *README.md
+2be0cc9f41f515c9fdae2a6a88b95f08 *build/vignette.rds
 cb8bd8dbe65348e16d8e1ee21f457d95 *data/dark2.rda
 8130264064df56f3280167d73dc77ea0 *data/extra_city.rda
 596bd8fa6b279bd1d1121329e6527438 *data/invalid_city.rda
@@ -61,10 +61,10 @@ f535f511c4024e3a700b896f74cdb4ef *data/usps_city.rda
 159979ba58a17804be013ecd9293da01 *data/valid_state.rda
 0310d7c73b8878a705fae2e6be80f930 *data/valid_zip.rda
 9212b144388b8066b3395899b5b5e12c *data/zipcodes.rda
-a9eff7710150ab3ea332f2280fc24f8c *inst/WORDLIST
+e577df4ee6e1e3398b23f17529ae11e9 *inst/WORDLIST
 3f21bef788adfa52773c1606241f1852 *inst/doc/normalize-geography.R
 45f01dd92d2e4da13f5b741b887eb31f *inst/doc/normalize-geography.Rmd
-cae6d8d2427f93331353fccf6cb2b409 *inst/doc/normalize-geography.html
+bc64b30bfad34678e2dbcec835fb558c *inst/doc/normalize-geography.html
 4fe3d10782ee716eb54b0d10b04dce0d *inst/extdata/vt_contribs.csv
 4271ff24a86718732615c9632948cace *inst/extdata/vt_contribs.rda
 db7dc84ef586ab864b7c913210e23961 *inst/templates/template_diary.Rmd
@@ -86,7 +86,7 @@ ae16e9633d1b5ce6571b48bebfd2e9bf *man/expand_abbrev.Rd
 78f471d24ecb2e84f6c1c3eeb642e8be *man/expand_state.Rd
 390926dd0c6955027efd721ec2e00f1d *man/explore_plot.Rd
 737f0d1a9c86c05abf8e117af9503717 *man/extra_city.Rd
-8989bb9ec8c166305272d8104140ba01 *man/fetch_city.Rd
+b0bc1d1124c42042496789b07218ce0e *man/fetch_city.Rd
 2bec6f29bd710385fea0c4ab49b13f66 *man/figures/logo.png
 73e52aaaea460d06d5d6f838a1843be1 *man/file_encoding.Rd
 d98e75b7ada251898d4adfcf4a486a44 *man/flag_dupes.Rd
@@ -146,12 +146,12 @@ dd28267b0b74d0a1029e88509ec1e70f *man/zipcodes.Rd
 b71f6cec5069535e36c66d7a8286176c *tests/testthat.R
 0a03482d226cde60aa0a6547052fd179 *tests/testthat/test-abbrev-check.R
 50d382b48ebc37c414721fc2a3ed1278 *tests/testthat/test-abbrev.R
-47607a9c38738a4d1f4c1fe50e34a39e *tests/testthat/test-check-city.R
+190628180aa6983bcf4360e8a7b10472 *tests/testthat/test-check-city.R
 57430a1297bfe847b09989ed891d194d *tests/testthat/test-col-stats.R
 fb4e892314b5aa5f531e7e7ac1d215b4 *tests/testthat/test-counters.R
 4de8232a173aaf21d844708b604781db *tests/testthat/test-diary.R
 4ff840a0c1079a1ad9ff5dd65751d83d *tests/testthat/test-dupe-flag.R
-cd15eb576bb5ced8b83a8df9bb04c1e1 *tests/testthat/test-encoding.R
+d012f40b80c7445a192bb9a18f6d3858 *tests/testthat/test-encoding.R
 6c2155483787bac194fc6e3ba6c7350c *tests/testthat/test-even-binary.R
 bb716fd893a5905775f06ad603029c60 *tests/testthat/test-expand.R
 b21e239e5f27a67b67c0831fb1a86922 *tests/testthat/test-explore-plot.R
@@ -159,7 +159,7 @@ b21e239e5f27a67b67c0831fb1a86922 *tests/testthat/test-explore-plot.R
 f89642ec6b7a4605b14f20a2889d2929 *tests/testthat/test-keypad-convert.R
 355d3881ead7bf73a620c96ecf622abb *tests/testthat/test-most-common.R
 7846267bfab77c10217f1d3efbdca4ab *tests/testthat/test-na-flag.R
-55ec8be704545968205ed8ab5258e66c *tests/testthat/test-new-files.R
+caacaab17e276923de331daa287a3bae *tests/testthat/test-new-files.R
 ca46625d92f8d2c649d3ad6847985814 *tests/testthat/test-normal-address.R
 eab2181caad4929127ca0719288f8073 *tests/testthat/test-normal-city.R
 0b1f623a34a845745ca9295d47e15c36 *tests/testthat/test-normal-phone.R
