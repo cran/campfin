@@ -567,14 +567,13 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a><span class="kw">length</span>(valid_city)</span>
 <span id="cb9-2"><a href="#cb9-2" aria-hidden="true"></a><span class="co">#&gt; [1] 19083</span></span>
 <span id="cb9-3"><a href="#cb9-3" aria-hidden="true"></a><span class="kw">sample</span>(valid_city, <span class="dv">6</span>)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true"></a><span class="co">#&gt; [1] &quot;HELTONVILLE&quot;              &quot;LOGANTON&quot;                </span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true"></a><span class="co">#&gt; [3] &quot;EAST GLASTONBURY&quot;         &quot;SIPESVILLE&quot;              </span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true"></a><span class="co">#&gt; [5] &quot;NATURITA&quot;                 &quot;MESA VERDE NATIONAL PARK&quot;</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true"></a><span class="kw">sample</span>(extra_city, <span class="dv">6</span>)</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true"></a><span class="co">#&gt; [1] &quot;CRAFTON&quot;         &quot;JOHNS CREEK&quot;     &quot;CUSTER PARK&quot;     &quot;PILESGROVE&quot;     </span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true"></a><span class="co">#&gt; [5] &quot;ERDENHEIM&quot;       &quot;WEST FOLLANSBEE&quot;</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true"></a><span class="co"># combine both vectors</span></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true"></a>many_city &lt;-<span class="st"> </span><span class="kw">c</span>(valid_city, extra_city)</span></code></pre></div>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true"></a><span class="co">#&gt; [1] &quot;SEVERNA PARK&quot; &quot;CAMP MEEKER&quot;  &quot;TOPAWA&quot;       &quot;SUMNEYTOWN&quot;   &quot;GREENBANK&quot;   </span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true"></a><span class="co">#&gt; [6] &quot;COFFEEVILLE&quot;</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true"></a><span class="kw">sample</span>(extra_city, <span class="dv">6</span>)</span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true"></a><span class="co">#&gt; [1] &quot;CRIDERSVILLE&quot;        &quot;NORTH TOPSAIL BEACH&quot; &quot;SOUTH FARMINGDALE&quot;  </span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true"></a><span class="co">#&gt; [4] &quot;HERMANTOWN&quot;          &quot;SOUTH SETAUKET&quot;      &quot;ORLAND HILLS&quot;</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true"></a><span class="co"># combine both vectors</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true"></a>many_city &lt;-<span class="st"> </span><span class="kw">c</span>(valid_city, extra_city)</span></code></pre></div>
 <p>Still, checking against this list is a good way to check for values that need additional attention.</p>
 <pre><code>#&gt; # A tibble: 3 x 5
 #&gt;   id    city       state zip   valid

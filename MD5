@@ -1,6 +1,6 @@
-e419f07eee84817540df2ebf7124d7ed *DESCRIPTION
+656e06df091a67b10ab00e8b0e40c2ba *DESCRIPTION
 ecd1528e9298458b156b67c387b4e983 *NAMESPACE
-2e3786c54dea5f257f1ad139f4563da3 *NEWS.md
+ccbd70fef4d3cf6bab59724f43252877 *NEWS.md
 91636c94d255f2a8d4352770e7c8504d *R/abbrev-full.R
 01845af4d59401bf0842ccd2b0ce28da *R/add-prop.R
 be6ac33533e1e3587456f4dadedc10ed *R/campfin.R
@@ -12,7 +12,7 @@ d70ffa275151fc2498396c2b2345c03f *R/counters.R
 072988ce631bfb4f9bbb98750f19f6bb *R/expand-abbrev.R
 cae0b92d1905daa29de57723fe072688 *R/explore-plot.R
 a789a83d661dd2e1e7b206a75ed5bf68 *R/fetch-city.R
-8577b86db26e2e4ed62776cac98f9f5c *R/file-encoding.R
+66cc18336d4f4a7dfe2742771c421316 *R/file-encoding.R
 209e8921b647f334f1050ffa875a47d7 *R/files-new.R
 9a3f31a03d74a38e79c0dc3f1da0c341 *R/flag-dupes.R
 0452691c0582b6e66f7fad2662092fae *R/flag-na.R
@@ -64,7 +64,7 @@ f535f511c4024e3a700b896f74cdb4ef *data/usps_city.rda
 e577df4ee6e1e3398b23f17529ae11e9 *inst/WORDLIST
 3f21bef788adfa52773c1606241f1852 *inst/doc/normalize-geography.R
 45f01dd92d2e4da13f5b741b887eb31f *inst/doc/normalize-geography.Rmd
-bc64b30bfad34678e2dbcec835fb558c *inst/doc/normalize-geography.html
+9f7a7f124c5b00ff4d05076df6d8dffd *inst/doc/normalize-geography.html
 4fe3d10782ee716eb54b0d10b04dce0d *inst/extdata/vt_contribs.csv
 4271ff24a86718732615c9632948cace *inst/extdata/vt_contribs.rda
 db7dc84ef586ab864b7c913210e23961 *inst/templates/template_diary.Rmd
@@ -151,7 +151,7 @@ b71f6cec5069535e36c66d7a8286176c *tests/testthat.R
 fb4e892314b5aa5f531e7e7ac1d215b4 *tests/testthat/test-counters.R
 4de8232a173aaf21d844708b604781db *tests/testthat/test-diary.R
 4ff840a0c1079a1ad9ff5dd65751d83d *tests/testthat/test-dupe-flag.R
-d012f40b80c7445a192bb9a18f6d3858 *tests/testthat/test-encoding.R
+493cdc84e2ae2731d199369eb90a181d *tests/testthat/test-encoding.R
 6c2155483787bac194fc6e3ba6c7350c *tests/testthat/test-even-binary.R
 bb716fd893a5905775f06ad603029c60 *tests/testthat/test-expand.R
 b21e239e5f27a67b67c0831fb1a86922 *tests/testthat/test-explore-plot.R
@@ -170,6 +170,6 @@ fd08f0f7a65d7dd78e053a4005381fd3 *tests/testthat/test-regex-break.R
 87d945d40c910ed7b9c04b4296b303c7 *tests/testthat/test-rename-prefix.R
 4956abaae922b4ed937b233bef437f76 *tests/testthat/test-string-distance.R
 54988842deed4829497d695f4e6b4f7b *tests/testthat/test-url-file-size.R
-b6c0c9ec3044f01b0a838a7e801f5063 *tests/testthat/test-url-path.R
+602c03bd1d39658158ddcae6d914582a *tests/testthat/test-url-path.R
 745f2a5bf28cef6507a5ef2b745f64aa *tests/testthat/test-usa-date.R
 45f01dd92d2e4da13f5b741b887eb31f *vignettes/normalize-geography.Rmd
