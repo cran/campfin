@@ -14,19 +14,6 @@
 
 <title>Normalize Geographic Variables</title>
 
-<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
-// be compatible with the behavior of Pandoc < 2.8).
-document.addEventListener('DOMContentLoaded', function(e) {
-  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
-  var i, h, a;
-  for (i = 0; i < hs.length; i++) {
-    h = hs[i];
-    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
-    a = h.attributes;
-    while (a.length > 0) h.removeAttribute(a[0].name);
-  }
-});
-</script>
 <script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
 // v0.0.1
 // Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
@@ -95,18 +82,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <style type="text/css">code{white-space: pre;}</style>
 <style type="text/css" data-origin="pandoc">
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { display: inline-block; line-height: 1.25; }
 code.sourceCode > span { color: inherit; text-decoration: inherit; }
+code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode { white-space: pre; position: relative; }
 div.sourceCode { margin: 1em 0; }
 pre.sourceCode { margin: 0; }
 @media screen {
 div.sourceCode { overflow: auto; }
 }
 @media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+code.sourceCode { white-space: pre-wrap; }
+code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
 pre.numberSource code
   { counter-reset: source-line 0; }
@@ -126,7 +114,7 @@ pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-le
 div.sourceCode
   {   }
 @media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 code span.al { color: #ff0000; font-weight: bold; } /* Alert */
 code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
@@ -379,11 +367,11 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 
 
 
-<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">library</span>(campfin)</span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a><span class="kw">library</span>(dplyr)</span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a><span class="kw">library</span>(stringr)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a><span class="kw">library</span>(readr)</span>
-<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a><span class="kw">library</span>(scales)</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1"></a><span class="kw">library</span>(campfin)</span>
+<span id="cb1-2"><a href="#cb1-2"></a><span class="kw">library</span>(dplyr)</span>
+<span id="cb1-3"><a href="#cb1-3"></a><span class="kw">library</span>(stringr)</span>
+<span id="cb1-4"><a href="#cb1-4"></a><span class="kw">library</span>(readr)</span>
+<span id="cb1-5"><a href="#cb1-5"></a><span class="kw">library</span>(scales)</span></code></pre></div>
 <div id="background" class="section level2">
 <h2>Background</h2>
 <p>This vignette contains an example of the workflow used by the wranglers on <a href="https://www.publicaccountability.org/">The Accountability Project</a>, a tool created by <a href="https://investigativereportingworkshop.org/">The Investigative Reporting Workshop</a> in Washington, DC. The Accountability Project curates, cleans, and indexes public data to give journalists, researchers and others a simple way to search across otherwise siloed records. The data focuses on people, organizations and locations.</p>
@@ -392,36 +380,36 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <div id="messy-data" class="section level2">
 <h2>Messy Data</h2>
 <p>In this vignette, we will clean some extremely messy fake contribution data from a fictitious campaign in Vermont. This data is found in the <code>vt_contribs</code> data frame found in the <code>inst/extdata</code> or <code>data-raw</code> directories.</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true"></a><span class="kw">read_csv</span>(</span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true"></a>  <span class="dt">file =</span> <span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;vt_contribs.csv&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;campfin&quot;</span>)</span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true"></a>)</span>
-<span id="cb2-4"><a href="#cb2-4" aria-hidden="true"></a><span class="co">#&gt; </span></span>
-<span id="cb2-5"><a href="#cb2-5" aria-hidden="true"></a><span class="co">#&gt; ── Column specification ────────────────────────────────────────────────────────</span></span>
-<span id="cb2-6"><a href="#cb2-6" aria-hidden="true"></a><span class="co">#&gt; cols(</span></span>
-<span id="cb2-7"><a href="#cb2-7" aria-hidden="true"></a><span class="co">#&gt;   id = col_character(),</span></span>
-<span id="cb2-8"><a href="#cb2-8" aria-hidden="true"></a><span class="co">#&gt;   cand = col_character(),</span></span>
-<span id="cb2-9"><a href="#cb2-9" aria-hidden="true"></a><span class="co">#&gt;   date = col_character(),</span></span>
-<span id="cb2-10"><a href="#cb2-10" aria-hidden="true"></a><span class="co">#&gt;   amount = col_double(),</span></span>
-<span id="cb2-11"><a href="#cb2-11" aria-hidden="true"></a><span class="co">#&gt;   first = col_character(),</span></span>
-<span id="cb2-12"><a href="#cb2-12" aria-hidden="true"></a><span class="co">#&gt;   last = col_character(),</span></span>
-<span id="cb2-13"><a href="#cb2-13" aria-hidden="true"></a><span class="co">#&gt;   address = col_character(),</span></span>
-<span id="cb2-14"><a href="#cb2-14" aria-hidden="true"></a><span class="co">#&gt;   city = col_character(),</span></span>
-<span id="cb2-15"><a href="#cb2-15" aria-hidden="true"></a><span class="co">#&gt;   state = col_character(),</span></span>
-<span id="cb2-16"><a href="#cb2-16" aria-hidden="true"></a><span class="co">#&gt;   zip = col_character()</span></span>
-<span id="cb2-17"><a href="#cb2-17" aria-hidden="true"></a><span class="co">#&gt; )</span></span>
-<span id="cb2-18"><a href="#cb2-18" aria-hidden="true"></a><span class="co">#&gt; # A tibble: 10 x 10</span></span>
-<span id="cb2-19"><a href="#cb2-19" aria-hidden="true"></a><span class="co">#&gt;    id    cand     date    amount first last   address       city    state zip   </span></span>
-<span id="cb2-20"><a href="#cb2-20" aria-hidden="true"></a><span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;         &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt; </span></span>
-<span id="cb2-21"><a href="#cb2-21" aria-hidden="true"></a><span class="co">#&gt;  1 01    Bob Mil… 02/09/…     10 Lisa  Miller 4 Sheffield … Sheffi… VT    05866 </span></span>
-<span id="cb2-22"><a href="#cb2-22" aria-hidden="true"></a><span class="co">#&gt;  2 02    Bob Mil… 03/09/…     20 Deb   Brown  Requested     Reques… RE    00000 </span></span>
-<span id="cb2-23"><a href="#cb2-23" aria-hidden="true"></a><span class="co">#&gt;  3 03    Chuck W… 04/09/…     25 &lt;NA&gt;  &lt;NA&gt;   p.o. box 567  Midleb… Verm… 05753…</span></span>
-<span id="cb2-24"><a href="#cb2-24" aria-hidden="true"></a><span class="co">#&gt;  4 04    Chuck W… 05/09/…    100 Josh  Jones  sugarhouse S… e Cori… V.T.  5076  </span></span>
-<span id="cb2-25"><a href="#cb2-25" aria-hidden="true"></a><span class="co">#&gt;  5 05    Bob Mil… 02/09/…     10 Lisa  Miller 4 Sheffield … Sheffi… VT    05866 </span></span>
-<span id="cb2-26"><a href="#cb2-26" aria-hidden="true"></a><span class="co">#&gt;  6 06    Chuck W… 06/09/…   1000 Bob   Taylor 55 thisplace… young … mn    55555 </span></span>
-<span id="cb2-27"><a href="#cb2-27" aria-hidden="true"></a><span class="co">#&gt;  7 07    Chuck W… 07/09/…   -600 Alex  Johns… 11 Liberty A… Bristo… VT    05443 </span></span>
-<span id="cb2-28"><a href="#cb2-28" aria-hidden="true"></a><span class="co">#&gt;  8 08    Alice W… 08/09/…      0 Ruth  Smith  2 Burlington… Brulin… vt    05401 </span></span>
-<span id="cb2-29"><a href="#cb2-29" aria-hidden="true"></a><span class="co">#&gt;  9 09    Alice W… 09/09/…     69 Joe   Garcia 770   5th-st… Washin… DC    20001…</span></span>
-<span id="cb2-30"><a href="#cb2-30" aria-hidden="true"></a><span class="co">#&gt; 10 10    Alice W… 11/09/…    222 Dave  Wilson XXXXXXXXXXXX… SA      Texas 78202</span></span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1"></a><span class="kw">read_csv</span>(</span>
+<span id="cb2-2"><a href="#cb2-2"></a>  <span class="dt">file =</span> <span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;vt_contribs.csv&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;campfin&quot;</span>)</span>
+<span id="cb2-3"><a href="#cb2-3"></a>)</span>
+<span id="cb2-4"><a href="#cb2-4"></a><span class="co">#&gt; </span></span>
+<span id="cb2-5"><a href="#cb2-5"></a><span class="co">#&gt; ── Column specification ────────────────────────────────────────────────────────</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a><span class="co">#&gt; cols(</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a><span class="co">#&gt;   id = col_character(),</span></span>
+<span id="cb2-8"><a href="#cb2-8"></a><span class="co">#&gt;   cand = col_character(),</span></span>
+<span id="cb2-9"><a href="#cb2-9"></a><span class="co">#&gt;   date = col_character(),</span></span>
+<span id="cb2-10"><a href="#cb2-10"></a><span class="co">#&gt;   amount = col_double(),</span></span>
+<span id="cb2-11"><a href="#cb2-11"></a><span class="co">#&gt;   first = col_character(),</span></span>
+<span id="cb2-12"><a href="#cb2-12"></a><span class="co">#&gt;   last = col_character(),</span></span>
+<span id="cb2-13"><a href="#cb2-13"></a><span class="co">#&gt;   address = col_character(),</span></span>
+<span id="cb2-14"><a href="#cb2-14"></a><span class="co">#&gt;   city = col_character(),</span></span>
+<span id="cb2-15"><a href="#cb2-15"></a><span class="co">#&gt;   state = col_character(),</span></span>
+<span id="cb2-16"><a href="#cb2-16"></a><span class="co">#&gt;   zip = col_character()</span></span>
+<span id="cb2-17"><a href="#cb2-17"></a><span class="co">#&gt; )</span></span>
+<span id="cb2-18"><a href="#cb2-18"></a><span class="co">#&gt; # A tibble: 10 x 10</span></span>
+<span id="cb2-19"><a href="#cb2-19"></a><span class="co">#&gt;    id    cand     date    amount first last   address       city    state zip   </span></span>
+<span id="cb2-20"><a href="#cb2-20"></a><span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;         &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt; </span></span>
+<span id="cb2-21"><a href="#cb2-21"></a><span class="co">#&gt;  1 01    Bob Mil… 02/09/…     10 Lisa  Miller 4 Sheffield … Sheffi… VT    05866 </span></span>
+<span id="cb2-22"><a href="#cb2-22"></a><span class="co">#&gt;  2 02    Bob Mil… 03/09/…     20 Deb   Brown  Requested     Reques… RE    00000 </span></span>
+<span id="cb2-23"><a href="#cb2-23"></a><span class="co">#&gt;  3 03    Chuck W… 04/09/…     25 &lt;NA&gt;  &lt;NA&gt;   p.o. box 567  Midleb… Verm… 05753…</span></span>
+<span id="cb2-24"><a href="#cb2-24"></a><span class="co">#&gt;  4 04    Chuck W… 05/09/…    100 Josh  Jones  sugarhouse S… e Cori… V.T.  5076  </span></span>
+<span id="cb2-25"><a href="#cb2-25"></a><span class="co">#&gt;  5 05    Bob Mil… 02/09/…     10 Lisa  Miller 4 Sheffield … Sheffi… VT    05866 </span></span>
+<span id="cb2-26"><a href="#cb2-26"></a><span class="co">#&gt;  6 06    Chuck W… 06/09/…   1000 Bob   Taylor 55 thisplace… young … mn    55555 </span></span>
+<span id="cb2-27"><a href="#cb2-27"></a><span class="co">#&gt;  7 07    Chuck W… 07/09/…   -600 Alex  Johns… 11 Liberty A… Bristo… VT    05443 </span></span>
+<span id="cb2-28"><a href="#cb2-28"></a><span class="co">#&gt;  8 08    Alice W… 08/09/…      0 Ruth  Smith  2 Burlington… Brulin… vt    05401 </span></span>
+<span id="cb2-29"><a href="#cb2-29"></a><span class="co">#&gt;  9 09    Alice W… 09/09/…     69 Joe   Garcia 770   5th-st… Washin… DC    20001…</span></span>
+<span id="cb2-30"><a href="#cb2-30"></a><span class="co">#&gt; 10 10    Alice W… 11/09/…    222 Dave  Wilson XXXXXXXXXXXX… SA      Texas 78202</span></span></code></pre></div>
 <p>What are some of the potential problems we can see in this data?</p>
 <ul>
 <li>The <code>date</code> column is not parsed as an R date.</li>
@@ -459,92 +447,92 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <div id="read" class="section level2">
 <h2>Read</h2>
 <p>In most cases, the first step is to download and read the file from a state agency. When reading the data with the popular <code>readr::read_delim()</code> function, the <code>col_date_usa</code> function can be used as a quick shortcut for <code>readr::col_date(format = &quot;%m/%d/%Y&quot;)</code>, the format most commonly found in U.S. campaign finance data.</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>vt &lt;-<span class="st"> </span><span class="kw">read_csv</span>(</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a>  <span class="dt">file =</span> <span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;vt_contribs.csv&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;campfin&quot;</span>),</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true"></a>  <span class="dt">trim_ws =</span> <span class="ot">FALSE</span>,</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true"></a>  <span class="dt">col_types =</span> <span class="kw">cols</span>(</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true"></a>    <span class="dt">amount =</span> <span class="kw">col_number</span>(),</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true"></a>    <span class="dt">date =</span> <span class="kw">col_date_usa</span>()</span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true"></a>  )</span>
-<span id="cb3-8"><a href="#cb3-8" aria-hidden="true"></a>)</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1"></a>vt &lt;-<span class="st"> </span><span class="kw">read_csv</span>(</span>
+<span id="cb3-2"><a href="#cb3-2"></a>  <span class="dt">file =</span> <span class="kw">system.file</span>(<span class="st">&quot;extdata&quot;</span>, <span class="st">&quot;vt_contribs.csv&quot;</span>, <span class="dt">package =</span> <span class="st">&quot;campfin&quot;</span>),</span>
+<span id="cb3-3"><a href="#cb3-3"></a>  <span class="dt">trim_ws =</span> <span class="ot">FALSE</span>,</span>
+<span id="cb3-4"><a href="#cb3-4"></a>  <span class="dt">col_types =</span> <span class="kw">cols</span>(</span>
+<span id="cb3-5"><a href="#cb3-5"></a>    <span class="dt">amount =</span> <span class="kw">col_number</span>(),</span>
+<span id="cb3-6"><a href="#cb3-6"></a>    <span class="dt">date =</span> <span class="kw">col_date_usa</span>()</span>
+<span id="cb3-7"><a href="#cb3-7"></a>  )</span>
+<span id="cb3-8"><a href="#cb3-8"></a>)</span></code></pre></div>
 <p>We can see how the new <code>date</code> column is an actual date object, allowing for mathematical manipulation.</p>
-<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a><span class="kw">transmute</span>(vt, date, <span class="dt">next_week =</span> date <span class="op">+</span><span class="st"> </span><span class="dv">7</span>)</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a><span class="co">#&gt; # A tibble: 10 x 2</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a><span class="co">#&gt;    date       next_week </span></span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a><span class="co">#&gt;    &lt;date&gt;     &lt;date&gt;    </span></span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true"></a><span class="co">#&gt;  1 2019-02-09 2019-02-16</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true"></a><span class="co">#&gt;  2 2009-03-09 2009-03-16</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true"></a><span class="co">#&gt;  3 2019-04-09 2019-04-16</span></span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true"></a><span class="co">#&gt;  4 2019-05-09 2019-05-16</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true"></a><span class="co">#&gt;  5 2019-02-09 2019-02-16</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true"></a><span class="co">#&gt;  6 2019-06-09 2019-06-16</span></span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true"></a><span class="co">#&gt;  7 2019-07-09 2019-07-16</span></span>
-<span id="cb4-12"><a href="#cb4-12" aria-hidden="true"></a><span class="co">#&gt;  8 2019-08-09 2019-08-16</span></span>
-<span id="cb4-13"><a href="#cb4-13" aria-hidden="true"></a><span class="co">#&gt;  9 2019-09-09 2019-09-16</span></span>
-<span id="cb4-14"><a href="#cb4-14" aria-hidden="true"></a><span class="co">#&gt; 10 2019-11-09 2019-11-16</span></span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1"></a><span class="kw">transmute</span>(vt, date, <span class="dt">next_week =</span> date <span class="op">+</span><span class="st"> </span><span class="dv">7</span>)</span>
+<span id="cb4-2"><a href="#cb4-2"></a><span class="co">#&gt; # A tibble: 10 x 2</span></span>
+<span id="cb4-3"><a href="#cb4-3"></a><span class="co">#&gt;    date       next_week </span></span>
+<span id="cb4-4"><a href="#cb4-4"></a><span class="co">#&gt;    &lt;date&gt;     &lt;date&gt;    </span></span>
+<span id="cb4-5"><a href="#cb4-5"></a><span class="co">#&gt;  1 2019-02-09 2019-02-16</span></span>
+<span id="cb4-6"><a href="#cb4-6"></a><span class="co">#&gt;  2 2009-03-09 2009-03-16</span></span>
+<span id="cb4-7"><a href="#cb4-7"></a><span class="co">#&gt;  3 2019-04-09 2019-04-16</span></span>
+<span id="cb4-8"><a href="#cb4-8"></a><span class="co">#&gt;  4 2019-05-09 2019-05-16</span></span>
+<span id="cb4-9"><a href="#cb4-9"></a><span class="co">#&gt;  5 2019-02-09 2019-02-16</span></span>
+<span id="cb4-10"><a href="#cb4-10"></a><span class="co">#&gt;  6 2019-06-09 2019-06-16</span></span>
+<span id="cb4-11"><a href="#cb4-11"></a><span class="co">#&gt;  7 2019-07-09 2019-07-16</span></span>
+<span id="cb4-12"><a href="#cb4-12"></a><span class="co">#&gt;  8 2019-08-09 2019-08-16</span></span>
+<span id="cb4-13"><a href="#cb4-13"></a><span class="co">#&gt;  9 2019-09-09 2019-09-16</span></span>
+<span id="cb4-14"><a href="#cb4-14"></a><span class="co">#&gt; 10 2019-11-09 2019-11-16</span></span></code></pre></div>
 <p>Next, we should try to normalize our data as much as possible. We can use some simple counting functions and built in vectors to check the cleanliness of our raw data.</p>
-<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true"></a><span class="kw">percent</span>(<span class="kw">prop_in</span>(vt<span class="op">$</span>city, <span class="kw">str_to_lower</span>(valid_city)))</span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true"></a><span class="co">#&gt; [1] &quot;10%&quot;</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true"></a><span class="kw">percent</span>(<span class="kw">prop_in</span>(vt<span class="op">$</span>state, valid_state))</span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true"></a><span class="co">#&gt; [1] &quot;40%&quot;</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true"></a><span class="kw">percent</span>(<span class="kw">prop_in</span>(vt<span class="op">$</span>zip, valid_zip))</span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true"></a><span class="co">#&gt; [1] &quot;60%&quot;</span></span></code></pre></div>
-<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a><span class="kw">col_stats</span>(vt, n_distinct)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a><span class="co">#&gt; # A tibble: 10 x 4</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a><span class="co">#&gt;    col     class      n     p</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a><span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a><span class="co">#&gt;  1 id      &lt;chr&gt;     10   1  </span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true"></a><span class="co">#&gt;  2 cand    &lt;chr&gt;      3   0.3</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true"></a><span class="co">#&gt;  3 date    &lt;date&gt;     9   0.9</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true"></a><span class="co">#&gt;  4 amount  &lt;dbl&gt;      9   0.9</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true"></a><span class="co">#&gt;  5 first   &lt;chr&gt;      9   0.9</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true"></a><span class="co">#&gt;  6 last    &lt;chr&gt;      9   0.9</span></span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true"></a><span class="co">#&gt;  7 address &lt;chr&gt;     10   1  </span></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true"></a><span class="co">#&gt;  8 city    &lt;chr&gt;      9   0.9</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true"></a><span class="co">#&gt;  9 state   &lt;chr&gt;      8   0.8</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true"></a><span class="co">#&gt; 10 zip     &lt;chr&gt;      9   0.9</span></span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true"></a><span class="kw">col_stats</span>(vt, count_na)</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true"></a><span class="co">#&gt; # A tibble: 10 x 4</span></span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true"></a><span class="co">#&gt;    col     class      n     p</span></span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true"></a><span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;</span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true"></a><span class="co">#&gt;  1 id      &lt;chr&gt;      0   0  </span></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true"></a><span class="co">#&gt;  2 cand    &lt;chr&gt;      0   0  </span></span>
-<span id="cb6-21"><a href="#cb6-21" aria-hidden="true"></a><span class="co">#&gt;  3 date    &lt;date&gt;     0   0  </span></span>
-<span id="cb6-22"><a href="#cb6-22" aria-hidden="true"></a><span class="co">#&gt;  4 amount  &lt;dbl&gt;      0   0  </span></span>
-<span id="cb6-23"><a href="#cb6-23" aria-hidden="true"></a><span class="co">#&gt;  5 first   &lt;chr&gt;      1   0.1</span></span>
-<span id="cb6-24"><a href="#cb6-24" aria-hidden="true"></a><span class="co">#&gt;  6 last    &lt;chr&gt;      1   0.1</span></span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true"></a><span class="co">#&gt;  7 address &lt;chr&gt;      0   0  </span></span>
-<span id="cb6-26"><a href="#cb6-26" aria-hidden="true"></a><span class="co">#&gt;  8 city    &lt;chr&gt;      0   0  </span></span>
-<span id="cb6-27"><a href="#cb6-27" aria-hidden="true"></a><span class="co">#&gt;  9 state   &lt;chr&gt;      0   0  </span></span>
-<span id="cb6-28"><a href="#cb6-28" aria-hidden="true"></a><span class="co">#&gt; 10 zip     &lt;chr&gt;      0   0</span></span></code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1"></a><span class="kw">percent</span>(<span class="kw">prop_in</span>(vt<span class="op">$</span>city, <span class="kw">str_to_lower</span>(valid_city)))</span>
+<span id="cb5-2"><a href="#cb5-2"></a><span class="co">#&gt; [1] &quot;10%&quot;</span></span>
+<span id="cb5-3"><a href="#cb5-3"></a><span class="kw">percent</span>(<span class="kw">prop_in</span>(vt<span class="op">$</span>state, valid_state))</span>
+<span id="cb5-4"><a href="#cb5-4"></a><span class="co">#&gt; [1] &quot;40%&quot;</span></span>
+<span id="cb5-5"><a href="#cb5-5"></a><span class="kw">percent</span>(<span class="kw">prop_in</span>(vt<span class="op">$</span>zip, valid_zip))</span>
+<span id="cb5-6"><a href="#cb5-6"></a><span class="co">#&gt; [1] &quot;60%&quot;</span></span></code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1"></a><span class="kw">col_stats</span>(vt, n_distinct)</span>
+<span id="cb6-2"><a href="#cb6-2"></a><span class="co">#&gt; # A tibble: 10 x 4</span></span>
+<span id="cb6-3"><a href="#cb6-3"></a><span class="co">#&gt;    col     class      n     p</span></span>
+<span id="cb6-4"><a href="#cb6-4"></a><span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;</span></span>
+<span id="cb6-5"><a href="#cb6-5"></a><span class="co">#&gt;  1 id      &lt;chr&gt;     10   1  </span></span>
+<span id="cb6-6"><a href="#cb6-6"></a><span class="co">#&gt;  2 cand    &lt;chr&gt;      3   0.3</span></span>
+<span id="cb6-7"><a href="#cb6-7"></a><span class="co">#&gt;  3 date    &lt;date&gt;     9   0.9</span></span>
+<span id="cb6-8"><a href="#cb6-8"></a><span class="co">#&gt;  4 amount  &lt;dbl&gt;      9   0.9</span></span>
+<span id="cb6-9"><a href="#cb6-9"></a><span class="co">#&gt;  5 first   &lt;chr&gt;      9   0.9</span></span>
+<span id="cb6-10"><a href="#cb6-10"></a><span class="co">#&gt;  6 last    &lt;chr&gt;      9   0.9</span></span>
+<span id="cb6-11"><a href="#cb6-11"></a><span class="co">#&gt;  7 address &lt;chr&gt;     10   1  </span></span>
+<span id="cb6-12"><a href="#cb6-12"></a><span class="co">#&gt;  8 city    &lt;chr&gt;      9   0.9</span></span>
+<span id="cb6-13"><a href="#cb6-13"></a><span class="co">#&gt;  9 state   &lt;chr&gt;      8   0.8</span></span>
+<span id="cb6-14"><a href="#cb6-14"></a><span class="co">#&gt; 10 zip     &lt;chr&gt;      9   0.9</span></span>
+<span id="cb6-15"><a href="#cb6-15"></a><span class="kw">col_stats</span>(vt, count_na)</span>
+<span id="cb6-16"><a href="#cb6-16"></a><span class="co">#&gt; # A tibble: 10 x 4</span></span>
+<span id="cb6-17"><a href="#cb6-17"></a><span class="co">#&gt;    col     class      n     p</span></span>
+<span id="cb6-18"><a href="#cb6-18"></a><span class="co">#&gt;    &lt;chr&gt;   &lt;chr&gt;  &lt;int&gt; &lt;dbl&gt;</span></span>
+<span id="cb6-19"><a href="#cb6-19"></a><span class="co">#&gt;  1 id      &lt;chr&gt;      0   0  </span></span>
+<span id="cb6-20"><a href="#cb6-20"></a><span class="co">#&gt;  2 cand    &lt;chr&gt;      0   0  </span></span>
+<span id="cb6-21"><a href="#cb6-21"></a><span class="co">#&gt;  3 date    &lt;date&gt;     0   0  </span></span>
+<span id="cb6-22"><a href="#cb6-22"></a><span class="co">#&gt;  4 amount  &lt;dbl&gt;      0   0  </span></span>
+<span id="cb6-23"><a href="#cb6-23"></a><span class="co">#&gt;  5 first   &lt;chr&gt;      1   0.1</span></span>
+<span id="cb6-24"><a href="#cb6-24"></a><span class="co">#&gt;  6 last    &lt;chr&gt;      1   0.1</span></span>
+<span id="cb6-25"><a href="#cb6-25"></a><span class="co">#&gt;  7 address &lt;chr&gt;      0   0  </span></span>
+<span id="cb6-26"><a href="#cb6-26"></a><span class="co">#&gt;  8 city    &lt;chr&gt;      0   0  </span></span>
+<span id="cb6-27"><a href="#cb6-27"></a><span class="co">#&gt;  9 state   &lt;chr&gt;      0   0  </span></span>
+<span id="cb6-28"><a href="#cb6-28"></a><span class="co">#&gt; 10 zip     &lt;chr&gt;      0   0</span></span></code></pre></div>
 <p>A typical benchmark is to reach greater than 95% “valid.” That is, we want to normalize our data enough that less than 5% of our data can not be easily confirmed as valid using a fairly comprehensive list of cities, states, and ZIP codes.</p>
 <p>We will first try to reach this threshold by normalizing our data. This process involves reducing inconsistencies through string manipulation. There are separate <code>normal_*()</code> functions for each of the 4 types of geographic variables. Here, we will use <code>dplyr::mutate()</code> to create <em>new</em>, normalized versions of our messy columns. This preserves the old data for transparency.</p>
-<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true"></a>vt &lt;-<span class="st"> </span>vt <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">mutate</span>(</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true"></a>    <span class="dt">address =</span> <span class="kw">normal_address</span>(</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true"></a>      <span class="dt">address =</span> address,</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true"></a>      <span class="dt">abbs =</span> usps_street,</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true"></a>      <span class="dt">na =</span> invalid_city,</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true"></a>      <span class="dt">na_rep =</span> <span class="ot">TRUE</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true"></a>    ),</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true"></a>    <span class="dt">city =</span> <span class="kw">normal_city</span>(</span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true"></a>      <span class="dt">city =</span> city,</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true"></a>      <span class="dt">abbs =</span> usps_city,</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true"></a>      <span class="dt">states =</span> <span class="st">&quot;VT&quot;</span>,</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true"></a>      <span class="dt">na =</span> invalid_city,</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true"></a>      <span class="dt">na_rep =</span> <span class="ot">TRUE</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true"></a>    ),</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true"></a>    <span class="dt">state =</span> <span class="kw">normal_state</span>(</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true"></a>      <span class="dt">state =</span> state,</span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true"></a>      <span class="dt">abbreviate =</span> <span class="ot">TRUE</span>,</span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true"></a>      <span class="dt">na_rep =</span> <span class="ot">TRUE</span>,</span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true"></a>      <span class="dt">valid =</span> valid_state</span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true"></a>    ),</span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true"></a>    <span class="dt">zip =</span> <span class="kw">normal_zip</span>(</span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true"></a>      <span class="dt">zip =</span> zip,</span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true"></a>      <span class="dt">na_rep =</span> <span class="ot">TRUE</span></span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true"></a>    )</span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true"></a>  )</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1"></a>vt &lt;-<span class="st"> </span>vt <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb7-2"><a href="#cb7-2"></a><span class="st">  </span><span class="kw">mutate</span>(</span>
+<span id="cb7-3"><a href="#cb7-3"></a>    <span class="dt">address =</span> <span class="kw">normal_address</span>(</span>
+<span id="cb7-4"><a href="#cb7-4"></a>      <span class="dt">address =</span> address,</span>
+<span id="cb7-5"><a href="#cb7-5"></a>      <span class="dt">abbs =</span> usps_street,</span>
+<span id="cb7-6"><a href="#cb7-6"></a>      <span class="dt">na =</span> invalid_city,</span>
+<span id="cb7-7"><a href="#cb7-7"></a>      <span class="dt">na_rep =</span> <span class="ot">TRUE</span></span>
+<span id="cb7-8"><a href="#cb7-8"></a>    ),</span>
+<span id="cb7-9"><a href="#cb7-9"></a>    <span class="dt">city =</span> <span class="kw">normal_city</span>(</span>
+<span id="cb7-10"><a href="#cb7-10"></a>      <span class="dt">city =</span> city,</span>
+<span id="cb7-11"><a href="#cb7-11"></a>      <span class="dt">abbs =</span> usps_city,</span>
+<span id="cb7-12"><a href="#cb7-12"></a>      <span class="dt">states =</span> <span class="st">&quot;VT&quot;</span>,</span>
+<span id="cb7-13"><a href="#cb7-13"></a>      <span class="dt">na =</span> invalid_city,</span>
+<span id="cb7-14"><a href="#cb7-14"></a>      <span class="dt">na_rep =</span> <span class="ot">TRUE</span></span>
+<span id="cb7-15"><a href="#cb7-15"></a>    ),</span>
+<span id="cb7-16"><a href="#cb7-16"></a>    <span class="dt">state =</span> <span class="kw">normal_state</span>(</span>
+<span id="cb7-17"><a href="#cb7-17"></a>      <span class="dt">state =</span> state,</span>
+<span id="cb7-18"><a href="#cb7-18"></a>      <span class="dt">abbreviate =</span> <span class="ot">TRUE</span>,</span>
+<span id="cb7-19"><a href="#cb7-19"></a>      <span class="dt">na_rep =</span> <span class="ot">TRUE</span>,</span>
+<span id="cb7-20"><a href="#cb7-20"></a>      <span class="dt">valid =</span> valid_state</span>
+<span id="cb7-21"><a href="#cb7-21"></a>    ),</span>
+<span id="cb7-22"><a href="#cb7-22"></a>    <span class="dt">zip =</span> <span class="kw">normal_zip</span>(</span>
+<span id="cb7-23"><a href="#cb7-23"></a>      <span class="dt">zip =</span> zip,</span>
+<span id="cb7-24"><a href="#cb7-24"></a>      <span class="dt">na_rep =</span> <span class="ot">TRUE</span></span>
+<span id="cb7-25"><a href="#cb7-25"></a>    )</span>
+<span id="cb7-26"><a href="#cb7-26"></a>  )</span></code></pre></div>
 <p>We can see how these functions and our built in data was used to normalize the geographic contributor data and remove anything that didn’t present real information. This format is much more explorable and searchable.</p>
 <pre><code>#&gt; # A tibble: 10 x 4
 #&gt;    address            city          state zip  
@@ -564,16 +552,16 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <h2>Cities</h2>
 <p>However, the problem has not been solved. Most troublesome are the city names. There are so many city names and such great variety (compared to states and ZIP codes), that it can be difficult to normalize and difficult to assess.</p>
 <p>Our <code>valid_city</code> vector contains many city names, but far less than exist in the country, especially when you account for neighborhoods that aren’t <em>really</em> cities, but shouldn’t be changed (some of these are contained in our curated <code>extra_city</code> vector).</p>
-<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true"></a><span class="kw">length</span>(valid_city)</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true"></a><span class="co">#&gt; [1] 19083</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true"></a><span class="kw">sample</span>(valid_city, <span class="dv">6</span>)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true"></a><span class="co">#&gt; [1] &quot;SEVERNA PARK&quot; &quot;CAMP MEEKER&quot;  &quot;TOPAWA&quot;       &quot;SUMNEYTOWN&quot;   &quot;GREENBANK&quot;   </span></span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true"></a><span class="co">#&gt; [6] &quot;COFFEEVILLE&quot;</span></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true"></a><span class="kw">sample</span>(extra_city, <span class="dv">6</span>)</span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true"></a><span class="co">#&gt; [1] &quot;CRIDERSVILLE&quot;        &quot;NORTH TOPSAIL BEACH&quot; &quot;SOUTH FARMINGDALE&quot;  </span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true"></a><span class="co">#&gt; [4] &quot;HERMANTOWN&quot;          &quot;SOUTH SETAUKET&quot;      &quot;ORLAND HILLS&quot;</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true"></a><span class="co"># combine both vectors</span></span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true"></a>many_city &lt;-<span class="st"> </span><span class="kw">c</span>(valid_city, extra_city)</span></code></pre></div>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1"></a><span class="kw">length</span>(valid_city)</span>
+<span id="cb9-2"><a href="#cb9-2"></a><span class="co">#&gt; [1] 19083</span></span>
+<span id="cb9-3"><a href="#cb9-3"></a><span class="kw">sample</span>(valid_city, <span class="dv">6</span>)</span>
+<span id="cb9-4"><a href="#cb9-4"></a><span class="co">#&gt; [1] &quot;KIRON&quot;            &quot;NORTH FORT MYERS&quot; &quot;BRIAR&quot;            &quot;NEW MIDWAY&quot;      </span></span>
+<span id="cb9-5"><a href="#cb9-5"></a><span class="co">#&gt; [5] &quot;NORTH NEWTON&quot;     &quot;SILVER GATE&quot;</span></span>
+<span id="cb9-6"><a href="#cb9-6"></a><span class="kw">sample</span>(extra_city, <span class="dv">6</span>)</span>
+<span id="cb9-7"><a href="#cb9-7"></a><span class="co">#&gt; [1] &quot;WILDWOOD CREST&quot;       &quot;MOCANAQUA&quot;            &quot;DORMONT&quot;             </span></span>
+<span id="cb9-8"><a href="#cb9-8"></a><span class="co">#&gt; [4] &quot;HELLAM&quot;               &quot;SHARONVILLE&quot;          &quot;INDIAN HARBOUR BEACH&quot;</span></span>
+<span id="cb9-9"><a href="#cb9-9"></a><span class="co"># combine both vectors</span></span>
+<span id="cb9-10"><a href="#cb9-10"></a>many_city &lt;-<span class="st"> </span><span class="kw">c</span>(valid_city, extra_city)</span></code></pre></div>
 <p>Still, checking against this list is a good way to check for values that need additional attention.</p>
 <pre><code>#&gt; # A tibble: 3 x 5
 #&gt;   id    city       state zip   valid
@@ -592,29 +580,29 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 <p>The <code>str_dist()</code> and <code>is_abbrev()</code> functions can be used to compared the value we have with the value we expect. By only checking against the corresponding city to that record’s ZIP code, we are making extremely <em>confident</em> changes (compared to the incredibly useful clustering algorithms like those provided by the <code>refinr</code> package).</p>
 <p>First, we can use <code>str_dist()</code>, which calls the <code>stringdist::stringdist()</code> function to check the <em>distance</em> between the two strings; that is, the number of changes we’d need to make to our normalized value to get our expected matched value. If that distance is small (usually 1 or 2), we can confidently use the matched value!</p>
 <p>But the string distance does not catch colloquial city abbreviations. NYC, BOS, LA, CHI, ABQ, BRNX, DFW, OKC. Many residents of a city get so used to writing their city’s name they use abbreviations and assume them to be universally understood. The <code>is_abbrev()</code> function can be used to check to one string might be an abbreviation for another using 3 common abbreviation characteristics: (1) is the abbreviation at least 2 characters shorter than the full name, (2) is the first letter of both strings the same, and (3) do the letters of the abbreviation appear in the same order as the full name. Every abbreviation generated by the <code>base::abbreviate()</code> function would satisfy these characteristics.</p>
-<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a>(bad &lt;-<span class="st"> </span>bad <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">mutate</span>(</span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true"></a>    <span class="dt">match_dist =</span> <span class="kw">str_dist</span>(city_raw, city_match),</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true"></a>    <span class="dt">match_abb =</span> <span class="kw">is_abbrev</span>(city_raw, city_match)</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true"></a>  ))</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true"></a><span class="co">#&gt; # A tibble: 3 x 8</span></span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true"></a><span class="co">#&gt;   id    city_raw   state zip   valid city_match  match_dist match_abb</span></span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true"></a><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt; &lt;chr&gt;            &lt;dbl&gt; &lt;lgl&gt;    </span></span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true"></a><span class="co">#&gt; 1 03    MIDLEBURY  VT    05753 FALSE MIDDLEBURY           1 FALSE    </span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true"></a><span class="co">#&gt; 2 08    BRULINGTON VT    05401 FALSE BURLINGTON           1 FALSE    </span></span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true"></a><span class="co">#&gt; 3 10    SA         TX    78202 FALSE SAN ANTONIO          9 TRUE</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1"></a>(bad &lt;-<span class="st"> </span>bad <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb12-2"><a href="#cb12-2"></a><span class="st">  </span><span class="kw">mutate</span>(</span>
+<span id="cb12-3"><a href="#cb12-3"></a>    <span class="dt">match_dist =</span> <span class="kw">str_dist</span>(city_raw, city_match),</span>
+<span id="cb12-4"><a href="#cb12-4"></a>    <span class="dt">match_abb =</span> <span class="kw">is_abbrev</span>(city_raw, city_match)</span>
+<span id="cb12-5"><a href="#cb12-5"></a>  ))</span>
+<span id="cb12-6"><a href="#cb12-6"></a><span class="co">#&gt; # A tibble: 3 x 8</span></span>
+<span id="cb12-7"><a href="#cb12-7"></a><span class="co">#&gt;   id    city_raw   state zip   valid city_match  match_dist match_abb</span></span>
+<span id="cb12-8"><a href="#cb12-8"></a><span class="co">#&gt;   &lt;chr&gt; &lt;chr&gt;      &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt; &lt;chr&gt;            &lt;dbl&gt; &lt;lgl&gt;    </span></span>
+<span id="cb12-9"><a href="#cb12-9"></a><span class="co">#&gt; 1 03    MIDLEBURY  VT    05753 FALSE MIDDLEBURY           1 FALSE    </span></span>
+<span id="cb12-10"><a href="#cb12-10"></a><span class="co">#&gt; 2 08    BRULINGTON VT    05401 FALSE BURLINGTON           1 FALSE    </span></span>
+<span id="cb12-11"><a href="#cb12-11"></a><span class="co">#&gt; 3 10    SA         TX    78202 FALSE SAN ANTONIO          9 TRUE</span></span></code></pre></div>
 <p>Here’s what this process would look like when employed on an entire data frame. It’s important to ensure that the number of rows in our campaign finance data is kept consistent throughout the wrangling process.</p>
-<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true"></a>vt &lt;-<span class="st"> </span>vt <span class="op">%&gt;%</span></span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true"></a><span class="st">  </span><span class="kw">rename</span>(<span class="dt">city_raw =</span> city) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true"></a><span class="st">  </span><span class="kw">left_join</span>(zipcodes) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true"></a><span class="st">  </span><span class="kw">rename</span>(<span class="dt">city_match =</span> city) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true"></a><span class="st">  </span><span class="kw">mutate</span>(</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true"></a>    <span class="dt">match_dist =</span> <span class="kw">str_dist</span>(city_raw, city_match),</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true"></a>    <span class="dt">match_abb =</span> <span class="kw">is_abbrev</span>(city_raw, city_match),</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true"></a>    <span class="dt">city =</span> <span class="kw">if_else</span>(match_abb <span class="op">|</span><span class="st"> </span>match_dist <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, city_match, city_raw)</span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true"></a>  ) <span class="op">%&gt;%</span><span class="st"> </span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true"></a><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>city_raw, <span class="op">-</span>city_match, <span class="op">-</span>match_dist, <span class="op">-</span>match_abb)</span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true"></a><span class="co">#&gt; Joining, by = c(&quot;state&quot;, &quot;zip&quot;)</span></span></code></pre></div>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1"></a>vt &lt;-<span class="st"> </span>vt <span class="op">%&gt;%</span></span>
+<span id="cb13-2"><a href="#cb13-2"></a><span class="st">  </span><span class="kw">rename</span>(<span class="dt">city_raw =</span> city) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb13-3"><a href="#cb13-3"></a><span class="st">  </span><span class="kw">left_join</span>(zipcodes) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb13-4"><a href="#cb13-4"></a><span class="st">  </span><span class="kw">rename</span>(<span class="dt">city_match =</span> city) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb13-5"><a href="#cb13-5"></a><span class="st">  </span><span class="kw">mutate</span>(</span>
+<span id="cb13-6"><a href="#cb13-6"></a>    <span class="dt">match_dist =</span> <span class="kw">str_dist</span>(city_raw, city_match),</span>
+<span id="cb13-7"><a href="#cb13-7"></a>    <span class="dt">match_abb =</span> <span class="kw">is_abbrev</span>(city_raw, city_match),</span>
+<span id="cb13-8"><a href="#cb13-8"></a>    <span class="dt">city =</span> <span class="kw">if_else</span>(match_abb <span class="op">|</span><span class="st"> </span>match_dist <span class="op">==</span><span class="st"> </span><span class="dv">1</span>, city_match, city_raw)</span>
+<span id="cb13-9"><a href="#cb13-9"></a>  ) <span class="op">%&gt;%</span><span class="st"> </span></span>
+<span id="cb13-10"><a href="#cb13-10"></a><span class="st">  </span><span class="kw">select</span>(<span class="op">-</span>city_raw, <span class="op">-</span>city_match, <span class="op">-</span>match_dist, <span class="op">-</span>match_abb)</span>
+<span id="cb13-11"><a href="#cb13-11"></a><span class="co">#&gt; Joining, by = c(&quot;state&quot;, &quot;zip&quot;)</span></span></code></pre></div>
 <p>Now every <code>city</code>, <code>state</code>, and <code>zip</code> value is contained in our list of valid values.</p>
 <pre><code>#&gt; # A tibble: 8 x 5
 #&gt;   id    state zip   city         all_valid
@@ -628,36 +616,36 @@ code > span.er { color: #a61717; background-color: #e3d2d2; }
 #&gt; 7 09    DC    20001 WASHINGTON   TRUE     
 #&gt; 8 10    TX    78202 SAN ANTONIO  TRUE</code></pre>
 <p>Once our data is as normal as we can confidently make it, we can begin to explore. First, we’ll explore the data for missing values with <code>flag_na</code>, which takes a <a href="https://github.com/r-lib/tidyselect" title="tidyselect">tidyselct</a> number of key columns to check (or something like <code>dplyr::everything()</code>).</p>
-<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true"></a>(vt &lt;-<span class="st"> </span><span class="kw">flag_na</span>(vt, last))</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true"></a><span class="co">#&gt; # A tibble: 10 x 11</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true"></a><span class="co">#&gt;    id    cand   date       amount first last   address state zip   city  na_flag</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true"></a><span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;  &lt;date&gt;      &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt;  </span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true"></a><span class="co">#&gt;  1 01    Bob M… 2019-02-09     10 Lisa  Miller 4 SHEF… VT    05866 SHEF… FALSE  </span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true"></a><span class="co">#&gt;  2 02    Bob M… 2009-03-09     20 Deb   Brown  &lt;NA&gt;    &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  FALSE  </span></span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true"></a><span class="co">#&gt;  3 03    Chuck… 2019-04-09     25 &lt;NA&gt;  &lt;NA&gt;   PO BOX… VT    05753 MIDD… TRUE   </span></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true"></a><span class="co">#&gt;  4 04    Chuck… 2019-05-09    100 Josh  Jones  SUGARH… VT    05076 EAST… FALSE  </span></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true"></a><span class="co">#&gt;  5 05    Bob M… 2019-02-09     10 Lisa  Miller 4 SHEF… VT    05866 SHEF… FALSE  </span></span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true"></a><span class="co">#&gt;  6 06    Chuck… 2019-06-09   1000 Bob   Taylor 55 THI… MN    &lt;NA&gt;  &lt;NA&gt;  FALSE  </span></span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true"></a><span class="co">#&gt;  7 07    Chuck… 2019-07-09   -600 Alex  Johns… 11 LIB… VT    05443 BRIS… FALSE  </span></span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true"></a><span class="co">#&gt;  8 08    Alice… 2019-08-09      0 Ruth  Smith  2 BURL… VT    05401 BURL… FALSE  </span></span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true"></a><span class="co">#&gt;  9 09    Alice… 2019-09-09     69 Joe   Garcia 770 5 … DC    20001 WASH… FALSE  </span></span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true"></a><span class="co">#&gt; 10 10    Alice… 2019-11-09    222 Dave  Wilson &lt;NA&gt;    TX    78202 SAN … FALSE</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1"></a>(vt &lt;-<span class="st"> </span><span class="kw">flag_na</span>(vt, last))</span>
+<span id="cb15-2"><a href="#cb15-2"></a><span class="co">#&gt; # A tibble: 10 x 11</span></span>
+<span id="cb15-3"><a href="#cb15-3"></a><span class="co">#&gt;    id    cand   date       amount first last   address state zip   city  na_flag</span></span>
+<span id="cb15-4"><a href="#cb15-4"></a><span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;  &lt;date&gt;      &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt;  </span></span>
+<span id="cb15-5"><a href="#cb15-5"></a><span class="co">#&gt;  1 01    Bob M… 2019-02-09     10 Lisa  Miller 4 SHEF… VT    05866 SHEF… FALSE  </span></span>
+<span id="cb15-6"><a href="#cb15-6"></a><span class="co">#&gt;  2 02    Bob M… 2009-03-09     20 Deb   Brown  &lt;NA&gt;    &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  FALSE  </span></span>
+<span id="cb15-7"><a href="#cb15-7"></a><span class="co">#&gt;  3 03    Chuck… 2019-04-09     25 &lt;NA&gt;  &lt;NA&gt;   PO BOX… VT    05753 MIDD… TRUE   </span></span>
+<span id="cb15-8"><a href="#cb15-8"></a><span class="co">#&gt;  4 04    Chuck… 2019-05-09    100 Josh  Jones  SUGARH… VT    05076 EAST… FALSE  </span></span>
+<span id="cb15-9"><a href="#cb15-9"></a><span class="co">#&gt;  5 05    Bob M… 2019-02-09     10 Lisa  Miller 4 SHEF… VT    05866 SHEF… FALSE  </span></span>
+<span id="cb15-10"><a href="#cb15-10"></a><span class="co">#&gt;  6 06    Chuck… 2019-06-09   1000 Bob   Taylor 55 THI… MN    &lt;NA&gt;  &lt;NA&gt;  FALSE  </span></span>
+<span id="cb15-11"><a href="#cb15-11"></a><span class="co">#&gt;  7 07    Chuck… 2019-07-09   -600 Alex  Johns… 11 LIB… VT    05443 BRIS… FALSE  </span></span>
+<span id="cb15-12"><a href="#cb15-12"></a><span class="co">#&gt;  8 08    Alice… 2019-08-09      0 Ruth  Smith  2 BURL… VT    05401 BURL… FALSE  </span></span>
+<span id="cb15-13"><a href="#cb15-13"></a><span class="co">#&gt;  9 09    Alice… 2019-09-09     69 Joe   Garcia 770 5 … DC    20001 WASH… FALSE  </span></span>
+<span id="cb15-14"><a href="#cb15-14"></a><span class="co">#&gt; 10 10    Alice… 2019-11-09    222 Dave  Wilson &lt;NA&gt;    TX    78202 SAN … FALSE</span></span></code></pre></div>
 <p>Next, we’ll want to check for duplicate rows using <code>flag_dupes</code>, which takes the same kind of arguments. Here, we can ignore the supposedly unique <code>id</code> variable. It’s possible for a person to make the same contribution on the same date, but we should flag them nonetheless.</p>
-<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true"></a>(vt &lt;-<span class="st"> </span><span class="kw">flag_dupes</span>(vt, <span class="op">-</span>id))</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true"></a><span class="co">#&gt; Warning in flag_dupes(vt, -id): no duplicate rows, column not created</span></span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true"></a><span class="co">#&gt; # A tibble: 10 x 11</span></span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true"></a><span class="co">#&gt;    id    cand   date       amount first last   address state zip   city  na_flag</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true"></a><span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;  &lt;date&gt;      &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt;  </span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true"></a><span class="co">#&gt;  1 01    Bob M… 2019-02-09     10 Lisa  Miller 4 SHEF… VT    05866 SHEF… FALSE  </span></span>
-<span id="cb16-7"><a href="#cb16-7" aria-hidden="true"></a><span class="co">#&gt;  2 02    Bob M… 2009-03-09     20 Deb   Brown  &lt;NA&gt;    &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  FALSE  </span></span>
-<span id="cb16-8"><a href="#cb16-8" aria-hidden="true"></a><span class="co">#&gt;  3 03    Chuck… 2019-04-09     25 &lt;NA&gt;  &lt;NA&gt;   PO BOX… VT    05753 MIDD… TRUE   </span></span>
-<span id="cb16-9"><a href="#cb16-9" aria-hidden="true"></a><span class="co">#&gt;  4 04    Chuck… 2019-05-09    100 Josh  Jones  SUGARH… VT    05076 EAST… FALSE  </span></span>
-<span id="cb16-10"><a href="#cb16-10" aria-hidden="true"></a><span class="co">#&gt;  5 05    Bob M… 2019-02-09     10 Lisa  Miller 4 SHEF… VT    05866 SHEF… FALSE  </span></span>
-<span id="cb16-11"><a href="#cb16-11" aria-hidden="true"></a><span class="co">#&gt;  6 06    Chuck… 2019-06-09   1000 Bob   Taylor 55 THI… MN    &lt;NA&gt;  &lt;NA&gt;  FALSE  </span></span>
-<span id="cb16-12"><a href="#cb16-12" aria-hidden="true"></a><span class="co">#&gt;  7 07    Chuck… 2019-07-09   -600 Alex  Johns… 11 LIB… VT    05443 BRIS… FALSE  </span></span>
-<span id="cb16-13"><a href="#cb16-13" aria-hidden="true"></a><span class="co">#&gt;  8 08    Alice… 2019-08-09      0 Ruth  Smith  2 BURL… VT    05401 BURL… FALSE  </span></span>
-<span id="cb16-14"><a href="#cb16-14" aria-hidden="true"></a><span class="co">#&gt;  9 09    Alice… 2019-09-09     69 Joe   Garcia 770 5 … DC    20001 WASH… FALSE  </span></span>
-<span id="cb16-15"><a href="#cb16-15" aria-hidden="true"></a><span class="co">#&gt; 10 10    Alice… 2019-11-09    222 Dave  Wilson &lt;NA&gt;    TX    78202 SAN … FALSE</span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1"></a>(vt &lt;-<span class="st"> </span><span class="kw">flag_dupes</span>(vt, <span class="op">-</span>id))</span>
+<span id="cb16-2"><a href="#cb16-2"></a><span class="co">#&gt; Warning in flag_dupes(vt, -id): no duplicate rows, column not created</span></span>
+<span id="cb16-3"><a href="#cb16-3"></a><span class="co">#&gt; # A tibble: 10 x 11</span></span>
+<span id="cb16-4"><a href="#cb16-4"></a><span class="co">#&gt;    id    cand   date       amount first last   address state zip   city  na_flag</span></span>
+<span id="cb16-5"><a href="#cb16-5"></a><span class="co">#&gt;    &lt;chr&gt; &lt;chr&gt;  &lt;date&gt;      &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt;  &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt; &lt;chr&gt; &lt;lgl&gt;  </span></span>
+<span id="cb16-6"><a href="#cb16-6"></a><span class="co">#&gt;  1 01    Bob M… 2019-02-09     10 Lisa  Miller 4 SHEF… VT    05866 SHEF… FALSE  </span></span>
+<span id="cb16-7"><a href="#cb16-7"></a><span class="co">#&gt;  2 02    Bob M… 2009-03-09     20 Deb   Brown  &lt;NA&gt;    &lt;NA&gt;  &lt;NA&gt;  &lt;NA&gt;  FALSE  </span></span>
+<span id="cb16-8"><a href="#cb16-8"></a><span class="co">#&gt;  3 03    Chuck… 2019-04-09     25 &lt;NA&gt;  &lt;NA&gt;   PO BOX… VT    05753 MIDD… TRUE   </span></span>
+<span id="cb16-9"><a href="#cb16-9"></a><span class="co">#&gt;  4 04    Chuck… 2019-05-09    100 Josh  Jones  SUGARH… VT    05076 EAST… FALSE  </span></span>
+<span id="cb16-10"><a href="#cb16-10"></a><span class="co">#&gt;  5 05    Bob M… 2019-02-09     10 Lisa  Miller 4 SHEF… VT    05866 SHEF… FALSE  </span></span>
+<span id="cb16-11"><a href="#cb16-11"></a><span class="co">#&gt;  6 06    Chuck… 2019-06-09   1000 Bob   Taylor 55 THI… MN    &lt;NA&gt;  &lt;NA&gt;  FALSE  </span></span>
+<span id="cb16-12"><a href="#cb16-12"></a><span class="co">#&gt;  7 07    Chuck… 2019-07-09   -600 Alex  Johns… 11 LIB… VT    05443 BRIS… FALSE  </span></span>
+<span id="cb16-13"><a href="#cb16-13"></a><span class="co">#&gt;  8 08    Alice… 2019-08-09      0 Ruth  Smith  2 BURL… VT    05401 BURL… FALSE  </span></span>
+<span id="cb16-14"><a href="#cb16-14"></a><span class="co">#&gt;  9 09    Alice… 2019-09-09     69 Joe   Garcia 770 5 … DC    20001 WASH… FALSE  </span></span>
+<span id="cb16-15"><a href="#cb16-15"></a><span class="co">#&gt; 10 10    Alice… 2019-11-09    222 Dave  Wilson &lt;NA&gt;    TX    78202 SAN … FALSE</span></span></code></pre></div>
 </div>
 
 

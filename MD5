@@ -1,6 +1,6 @@
-656e06df091a67b10ab00e8b0e40c2ba *DESCRIPTION
-ecd1528e9298458b156b67c387b4e983 *NAMESPACE
-ccbd70fef4d3cf6bab59724f43252877 *NEWS.md
+0d3c0730665bffa86077888aba40f626 *DESCRIPTION
+95fe3b00f26845499784b14ba5ae77a2 *NAMESPACE
+5ed44ea5ac47aa6de5983410fdff0055 *NEWS.md
 91636c94d255f2a8d4352770e7c8504d *R/abbrev-full.R
 01845af4d59401bf0842ccd2b0ce28da *R/add-prop.R
 be6ac33533e1e3587456f4dadedc10ed *R/campfin.R
@@ -12,9 +12,9 @@ d70ffa275151fc2498396c2b2345c03f *R/counters.R
 072988ce631bfb4f9bbb98750f19f6bb *R/expand-abbrev.R
 cae0b92d1905daa29de57723fe072688 *R/explore-plot.R
 a789a83d661dd2e1e7b206a75ed5bf68 *R/fetch-city.R
-66cc18336d4f4a7dfe2742771c421316 *R/file-encoding.R
+c0f6950fd37b9c7c1a8587643b5d615b *R/file-encoding.R
 209e8921b647f334f1050ffa875a47d7 *R/files-new.R
-9a3f31a03d74a38e79c0dc3f1da0c341 *R/flag-dupes.R
+f82ac46f97b56a4beb5956a193ed1ae7 *R/flag-dupes.R
 0452691c0582b6e66f7fad2662092fae *R/flag-na.R
 3c593b02e35dace24b4010cd1876af4c *R/flush-memory.R
 58ca86aecab7d21cafe08f1b76c11bfa *R/glimpse-fun.R
@@ -29,8 +29,8 @@ edbd36938e5c830c90b70d6aa2a0618e *R/normal-address.R
 dfcad12675de5e1fba1ed1feadec1637 *R/normal-city.R
 72c4111b507e45c602af6abd70c84933 *R/normal-phone.R
 fdace259669095379bae0d4866ff50b3 *R/normal-state.R
-b603cfce0a6ef6f12ae49a401291ebf9 *R/normal-zip.R
-b7f8f27f71cac50ce67a4cee4d9f157e *R/path-abbrev.R
+9b2922aaa8999bc0e3725e22586a2831 *R/normal-zip.R
+893c411b190353a3b1948dfdcd9e01cf *R/path-abbrev.R
 da90fd0ded73bf2985a5e00b047e1b43 *R/progress-table.R
 585301215e413170fd31a29638b79181 *R/read-names.R
 3f46d389b09dad0eda78bd73432cda67 *R/rename-prefix.R
@@ -41,10 +41,10 @@ add451e0f34009a3d60ff1f0e444e3c2 *R/str-normal.R
 215209c1c43ed952a0b5bc323d20028d *R/sysdata.rda
 4120147fb4cdf6231dee5937ad4991a9 *R/url-file-size.R
 9af944949b953434868e209fb9775cd5 *R/url2path.R
-3b4c229239e533257f8114930a3289f3 *R/use-diary.R
+6d726b2e9d0d1319074e14692d2c476f *R/use-diary.R
 65cef5e0674056f6fc07dd2b3ca85c13 *R/utils-pipe.R
 445aaa403afd38b6fb8b46270d1f1be9 *README.md
-2be0cc9f41f515c9fdae2a6a88b95f08 *build/vignette.rds
+af69ca12bb277c7dc567c601d29e4c77 *build/vignette.rds
 cb8bd8dbe65348e16d8e1ee21f457d95 *data/dark2.rda
 8130264064df56f3280167d73dc77ea0 *data/extra_city.rda
 596bd8fa6b279bd1d1121329e6527438 *data/invalid_city.rda
@@ -64,10 +64,10 @@ f535f511c4024e3a700b896f74cdb4ef *data/usps_city.rda
 e577df4ee6e1e3398b23f17529ae11e9 *inst/WORDLIST
 3f21bef788adfa52773c1606241f1852 *inst/doc/normalize-geography.R
 45f01dd92d2e4da13f5b741b887eb31f *inst/doc/normalize-geography.Rmd
-9f7a7f124c5b00ff4d05076df6d8dffd *inst/doc/normalize-geography.html
+ffb627a3512ffd27496579108907593a *inst/doc/normalize-geography.html
 4fe3d10782ee716eb54b0d10b04dce0d *inst/extdata/vt_contribs.csv
 4271ff24a86718732615c9632948cace *inst/extdata/vt_contribs.rda
-db7dc84ef586ab864b7c913210e23961 *inst/templates/template_diary.Rmd
+389da18102e8abca35832021f74fc0a8 *inst/templates/template_diary.Rmd
 f2a4dc2185ce169e10292b5c05aff42b *man/abbrev_full.Rd
 6a264887830cd6925f2b8d56722de1ea *man/abbrev_state.Rd
 0a95a6eee5a254417b57bc313e9cf9f8 *man/add_prop.Rd
@@ -88,7 +88,7 @@ ae16e9633d1b5ce6571b48bebfd2e9bf *man/expand_abbrev.Rd
 737f0d1a9c86c05abf8e117af9503717 *man/extra_city.Rd
 b0bc1d1124c42042496789b07218ce0e *man/fetch_city.Rd
 2bec6f29bd710385fea0c4ab49b13f66 *man/figures/logo.png
-73e52aaaea460d06d5d6f838a1843be1 *man/file_encoding.Rd
+f45176fe458a2ab64bfa9da64a10474f *man/file_encoding.Rd
 d98e75b7ada251898d4adfcf4a486a44 *man/flag_dupes.Rd
 e14ceab5f056b6b967b7aaff5a08a7ee *man/flag_na.Rd
 ac19fa45b6a84768c5a9e5612b528966 *man/flush_memory.Rd
@@ -110,7 +110,7 @@ e5b5a73151d9a754315427ac920c87b9 *man/normal_address.Rd
 44734238ac998585756bb2308afbf799 *man/normal_phone.Rd
 34ba9b0acd3504764fc00679140c05d0 *man/normal_state.Rd
 944accee5d7c4e9a10ec3cf300c25a9f *man/normal_zip.Rd
-407cee1c9fb552fdc604fd8c90de4d75 *man/path.abbrev.Rd
+27c75e6c52d4babc8a56a95e6e0f5605 *man/path.abbrev.Rd
 4894ca10756199e25f914bfd34f517b0 *man/pipe.Rd
 b8cab9ac9b2462634759d7ad3cacc82f *man/progress_table.Rd
 384e231531cf02d25c679963821a1340 *man/prop_distinct.Rd
@@ -149,7 +149,7 @@ b71f6cec5069535e36c66d7a8286176c *tests/testthat.R
 190628180aa6983bcf4360e8a7b10472 *tests/testthat/test-check-city.R
 57430a1297bfe847b09989ed891d194d *tests/testthat/test-col-stats.R
 fb4e892314b5aa5f531e7e7ac1d215b4 *tests/testthat/test-counters.R
-4de8232a173aaf21d844708b604781db *tests/testthat/test-diary.R
+13f1e2be601506d7a3c0729b2c277e84 *tests/testthat/test-diary.R
 4ff840a0c1079a1ad9ff5dd65751d83d *tests/testthat/test-dupe-flag.R
 493cdc84e2ae2731d199369eb90a181d *tests/testthat/test-encoding.R
 6c2155483787bac194fc6e3ba6c7350c *tests/testthat/test-even-binary.R
