@@ -33,7 +33,6 @@ Other counting wrappers:
 \code{\link{count_diff}()},
 \code{\link{count_in}()},
 \code{\link{count_na}()},
-\code{\link{count_vec}()},
 \code{\link{na_in}()},
 \code{\link{na_out}()},
 \code{\link{na_rep}()},
@@ -41,7 +40,7 @@ Other counting wrappers:
 \code{\link{prop_in}()},
 \code{\link{prop_na}()},
 \code{\link{prop_out}()},
-\code{\link{which_in}()},
-\code{\link{which_out}()}
+\code{\link{what_in}()},
+\code{\link{what_out}()}
 }
 \concept{counting wrappers}

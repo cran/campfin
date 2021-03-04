@@ -3,36 +3,41 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+library(knitr)
+
+## ----campfin------------------------------------------------------------------
+library(campfin)
+packageVersion("campfin")
 
 ## ----setup, warning=FALSE, message=FALSE, error=FALSE-------------------------
-library(campfin)
 library(dplyr)
-library(stringr)
 library(readr)
-library(scales)
+library(stringr)
 
 ## ----view_messy---------------------------------------------------------------
-read_csv(
-  file = system.file("extdata", "vt_contribs.csv", package = "campfin")
-)
+ex_file <- system.file("extdata", "vt_contribs.csv", package = "campfin")
+
+## ----echo=FALSE---------------------------------------------------------------
+kable(read_csv(ex_file, col_types = cols(.default = col_character())))
 
 ## ----read_messy---------------------------------------------------------------
 vt <- read_csv(
-  file = system.file("extdata", "vt_contribs.csv", package = "campfin"),
+  file = ex_file,
   trim_ws = FALSE,
+  na = c("", "NA", "N/A"),
   col_types = cols(
     amount = col_number(),
-    date = col_date_usa()
+    date = col_date_mdy()
   )
 )
 
 ## ----date_math----------------------------------------------------------------
-transmute(vt, date, next_week = date + 7)
+min(vt$date)
 
 ## ----prop_valid_before--------------------------------------------------------
-percent(prop_in(vt$city, str_to_lower(valid_city)))
-percent(prop_in(vt$state, valid_state))
-percent(prop_in(vt$zip, valid_zip))
+prop_in(vt$city, str_to_lower(valid_city))
+prop_in(vt$state, valid_state)
+prop_in(vt$zip, valid_zip)
 
 ## ----glimpse_fun--------------------------------------------------------------
 col_stats(vt, n_distinct)
@@ -51,8 +56,7 @@ vt <- vt %>%
       city = city,
       abbs = usps_city,
       states = "VT",
-      na = invalid_city,
-      na_rep = TRUE
+      na = invalid_city
     ),
     state = normal_state(
       state = state,
@@ -67,7 +71,7 @@ vt <- vt %>%
   )
 
 ## ----showal, echo=FALSE-------------------------------------------------------
-select(vt, 7:10)
+vt %>% select(address, city, state, zip)
 
 ## ----length_city--------------------------------------------------------------
 length(valid_city)
@@ -78,45 +82,73 @@ many_city <- c(valid_city, extra_city)
 
 ## ----bad_city, echo=FALSE-----------------------------------------------------
 (bad <- vt %>%
-  select(1, 8:10) %>% 
+  select(1, 7:9) %>% 
   filter(!is.na(city)) %>% 
   mutate(valid = city %in% many_city) %>%
   filter(!valid))
 
-## ----match_city, echo=FALSE---------------------------------------------------
-(bad <- bad %>% 
-  left_join(zipcodes, by = c("zip", "state"), suffix = c("_raw", "_match")))
+## ----bad_join-----------------------------------------------------------------
+bad <- left_join(
+  x = bad,
+  y = zipcodes,
+  by = c("zip", "state"), 
+  suffix = c("_raw", "_match")
+)
+
+## ----echo=FALSE---------------------------------------------------------------
+kable(select(bad, -valid))
+
+## ----str_dist-----------------------------------------------------------------
+str_dist("example", "xampel")
+
+## ----is_abbrev----------------------------------------------------------------
+is_abbrev(abb = "NYC", full = "New York City")
+is_abbrev(abb = "DC", full = "Washington")
 
 ## ----check_city---------------------------------------------------------------
-(bad <- bad %>% 
+bad <- bad %>% 
   mutate(
     match_dist = str_dist(city_raw, city_match),
     match_abb = is_abbrev(city_raw, city_match)
-  ))
+  )
+
+## ----echo=FALSE---------------------------------------------------------------
+kable(select(bad, -valid))
 
 ## ----swap_city----------------------------------------------------------------
 vt <- vt %>%
   rename(city_raw = city) %>% 
+  # match city by ZIP
   left_join(zipcodes) %>% 
-  rename(city_match = city) %>% 
+  rename(city_match = city) %>%
   mutate(
+    # check against match
     match_dist = str_dist(city_raw, city_match),
     match_abb = is_abbrev(city_raw, city_match),
-    city = if_else(match_abb | match_dist == 1, city_match, city_raw)
+    city = ifelse(match_abb | match_dist == 1, city_match, city_raw)
   ) %>% 
+  # remove intermediary columns
   select(-city_raw, -city_match, -match_dist, -match_abb)
 
 ## ----show_swap, echo=FALSE----------------------------------------------------
 vt %>%
-  select(1, 8:10) %>% 
+  select(1, 7:9) %>% 
   filter(!is.na(city)) %>% 
   mutate(
-    all_valid = city %in% valid_city & state %in% valid_state & zip %in% valid_zip
+    all_valid = all(
+      city %in% valid_city,
+      state %in% valid_state,
+      zip %in% valid_zip
     )
+  ) %>%  
+  kable()
 
 ## ----flag_na------------------------------------------------------------------
-(vt <- flag_na(vt, last))
+(vt <- flag_na(vt, name))
 
 ## ----flag_dupes---------------------------------------------------------------
-(vt <- flag_dupes(vt, -id))
+(vt <- flag_dupes(vt, -id, .both = TRUE))
+
+## ----echo=FALSE---------------------------------------------------------------
+kable(vt)
 

@@ -92,19 +92,6 @@ test_that("na_rep can ignore strings of only one character", {
   expect_equal(a, x)
 })
 
-test_that("count_vec returns a dplyr::count() on a vector", {
-  x <- sample(
-    x = c("VT", "DC", "MA"),
-    size = 100,
-    replace = TRUE,
-    prob = c(0.75, 0.50, 0.25)
-  )
-  a <- count_vec(x)
-  expect_s3_class(a, "tbl")
-  expect_length(a, 2)
-  expect_equal(nrow(a), n_distinct(x))
-})
-
 test_that("comparisong counters can ignore case", {
   expect_equal(prop_in(letters, LETTERS, ignore.case = TRUE), 1)
   expect_equal(prop_out(letters, LETTERS, ignore.case = TRUE), 0)
@@ -114,17 +101,17 @@ test_that("comparisong counters can ignore case", {
   expect_equal(count_na(na_out(letters, LETTERS, ignore.case = TRUE)), 0)
 })
 
-test_that("which_in can ignore case", {
+test_that("what_in can ignore case", {
   x <- c("vt", "ma", NA)
-  expect_length(which_in(x, state.abb, ignore.case = TRUE), 2)
+  expect_length(what_in(x, state.abb, ignore.case = TRUE), 2)
 })
 
-test_that("which_out can ignore case", {
+test_that("what_out can ignore case", {
   x <- c("vt", "ma", NA)
-  expect_length(which_out(x, state.abb, ignore.case = TRUE), 0)
+  expect_length(what_out(x, state.abb, ignore.case = TRUE), 0)
 })
 
-test_that("which_out can ignore NA", {
+test_that("what_out can ignore NA", {
   x <- c("VT", "DC", NA)
-  expect_length(which_out(x, state.abb, na.rm = TRUE), 1)
+  expect_length(what_out(x, state.abb, na.rm = TRUE), 1)
 })
