@@ -1,6 +1,6 @@
-c266d26166c05487014566750e31ffd0 *DESCRIPTION
+1cac20c0caffea1cba38e9bc5e80b433 *DESCRIPTION
 b730c59caa4dc7c0df52a0322516768d *NAMESPACE
-96c4e12f1b8b0cd7e523c4764111a59e *NEWS.md
+ea8c17030a26c5b306398b5b035ea736 *NEWS.md
 91636c94d255f2a8d4352770e7c8504d *R/abbrev-full.R
 01845af4d59401bf0842ccd2b0ce28da *R/add-prop.R
 be6ac33533e1e3587456f4dadedc10ed *R/campfin.R
@@ -42,10 +42,10 @@ add451e0f34009a3d60ff1f0e444e3c2 *R/str-normal.R
 215209c1c43ed952a0b5bc323d20028d *R/sysdata.rda
 669c95c6ad30d86c4be64adab6076712 *R/url-file-size.R
 9af944949b953434868e209fb9775cd5 *R/url2path.R
-4e84f3fcbb3f7ca82f113fda40aeae9f *R/use-diary.R
+f7fc19afdfaa24af03602432c3b09645 *R/use-diary.R
 65cef5e0674056f6fc07dd2b3ca85c13 *R/utils-pipe.R
 203c94ee3ce9ceb22d726ba2269c2228 *README.md
-7e26ef0eeae22af437288c3967ea00ef *build/vignette.rds
+0d258667a0f132721d79492bae8bdc8e *build/vignette.rds
 cb8bd8dbe65348e16d8e1ee21f457d95 *data/dark2.rda
 8130264064df56f3280167d73dc77ea0 *data/extra_city.rda
 596bd8fa6b279bd1d1121329e6527438 *data/invalid_city.rda
@@ -65,10 +65,10 @@ cb8bd8dbe65348e16d8e1ee21f457d95 *data/dark2.rda
 08fe3bde891950a81a0f20ca2770710c *inst/WORDLIST
 351d444a2f01c3c277c4db496405b479 *inst/doc/normalize-geography.R
 e90454e1c07ccb20751b5a615205c56e *inst/doc/normalize-geography.Rmd
-f67f5794bb9d3eab627141b92fc35195 *inst/doc/normalize-geography.html
+309d1c984449965acc36da484542c421 *inst/doc/normalize-geography.html
 5c31b4fc92d9daab162f960b1c270683 *inst/extdata/vt_contribs.csv
 710024dd54084c146f9aa92b6fa53498 *inst/extdata/vt_contribs.rda
-672ee9b38fe40fa29335fa5054fc4375 *inst/templates/template_diary.Rmd
+08149abf1aac2b53730901bf608dbb0a *inst/templates/template_diary.Rmd
 f2a4dc2185ce169e10292b5c05aff42b *man/abbrev_full.Rd
 6a264887830cd6925f2b8d56722de1ea *man/abbrev_state.Rd
 0a95a6eee5a254417b57bc313e9cf9f8 *man/add_prop.Rd
@@ -163,7 +163,7 @@ f89642ec6b7a4605b14f20a2889d2929 *tests/testthat/test-keypad-convert.R
 355d3881ead7bf73a620c96ecf622abb *tests/testthat/test-most-common.R
 7846267bfab77c10217f1d3efbdca4ab *tests/testthat/test-na-flag.R
 caacaab17e276923de331daa287a3bae *tests/testthat/test-new-files.R
-7d4f7048c98c12c03f3569766d13e4a9 *tests/testthat/test-non-ascii.R
+4e5d6bb33973cee178fbda4597d3034f *tests/testthat/test-non-ascii.R
 ca46625d92f8d2c649d3ad6847985814 *tests/testthat/test-normal-address.R
 eab2181caad4929127ca0719288f8073 *tests/testthat/test-normal-city.R
 0b1f623a34a845745ca9295d47e15c36 *tests/testthat/test-normal-phone.R
