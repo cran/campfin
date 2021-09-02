@@ -24,13 +24,14 @@
 #' @export
 normal_address <- function(address, abbs = NULL, na = c("", "NA"), na_rep = FALSE) {
   address2 <- address %>%
+    stringr::str_remove_all("(?<=(^|\\.|\\s)\\w)\\.") %>%
     str_normal() %>%
     stringr::str_replace_all("^P\\sO", "PO") %>%
     stringr::str_replace_all("(?<=^|\\s)C\\sO(?=\\s|$)", "C/O") %>%
     stringr::str_replace_all("^([:digit:]+)([:alpha:]+)", "\\1 \\2") %>%
     stringr::str_replace_all("([:alpha:]+)([:digit:]+)$", "\\1 \\2")
   if (!is.null(abbs)) {
-    address2 <- abbrev_full(x = address2, full = abbs)
+    address2 <- abbrev_full(x = address2, full = abbs, end = TRUE)
   }
   if (na_rep) {
     address2 <- na_rep(address2)
