@@ -1,3 +1,12 @@
+# campfin 1.0.9
+
+* Update template diary to match changes to TAP GitHub repository.
+* Do not remove "AA" when using `normal_state(c("AA", "XX"), na_rep = TRUE)`.
+* The `end` argument of `str_normal()` can now be controlled with `abb_end` in
+  `normal_address()` (default `TRUE`).
+* Simplify `normal_address()` by leaving number/letter mixes alone.
+* Change the `punct` argument of `str_normal()` to take a replacement string.
+
 # campfin 1.0.8
 
 * Add `string` argument to `guess_delim()` to read the input as a single line

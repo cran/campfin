@@ -13,31 +13,32 @@
 #'   passed to [expand_abbrev()]. See `?expand_abbrev` for the type of object
 #'   structure needed.
 #' @param na A character vector of values to make `NA` (like [invalid_city]).
+#' @param punct A character value with which to replace all punctuation.
 #' @param na_rep logical; If `TRUE`, replace all single digit (repeating)
 #'   strings with `NA`.
+#' @param abb_end logical; Should only the last word the string be abbreviated
+#'   with the `abbs` argument? Passed to the `end` argument of [str_normal()].
 #' @return A vector of normalized street addresses.
 #' @examples
-#' normal_address("P.O. 123, C/O John Smith", abbs = usps_street)
-#' normal_address("12east 2nd street, suite209", abbs = usps_street)
-#' @importFrom stringr str_to_upper str_replace_all str_trim str_squish str_replace
+#' normal_address("P.O. #123, C/O John Smith", abbs = usps_street)
+#' normal_address("12east 2nd street, #209", abbs = usps_street, abb_end = FALSE)
+#' @importFrom stringr str_to_upper str_replace_all str_trim str_squish
+#'    str_replace
 #' @family geographic normalization functions
 #' @export
-normal_address <- function(address, abbs = NULL, na = c("", "NA"), na_rep = FALSE) {
-  address2 <- address %>%
+normal_address <- function(address, abbs = NULL, na = c("", "NA"), punct = "",
+                           na_rep = FALSE, abb_end = TRUE) {
+  address <- address %>%
     stringr::str_remove_all("(?<=(^|\\.|\\s)\\w)\\.") %>%
-    str_normal() %>%
-    stringr::str_replace_all("^P\\sO", "PO") %>%
-    stringr::str_replace_all("(?<=^|\\s)C\\sO(?=\\s|$)", "C/O") %>%
-    stringr::str_replace_all("^([:digit:]+)([:alpha:]+)", "\\1 \\2") %>%
-    stringr::str_replace_all("([:alpha:]+)([:digit:]+)$", "\\1 \\2")
+    str_normal(punct = punct)
   if (!is.null(abbs)) {
-    address2 <- abbrev_full(x = address2, full = abbs, end = TRUE)
+    address <- abbrev_full(x = address, full = abbs, end = abb_end)
   }
   if (na_rep) {
-    address2 <- na_rep(address2)
+    address <- na_rep(address)
   }
   if (!rlang::is_empty(na)) {
-    address2 <- na_in(address2, na)
+    address <- na_in(address, na)
   }
-  address2
+  address
 }
