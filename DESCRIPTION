@@ -1,7 +1,7 @@
 Type: Package
 Package: campfin
 Title: Wrangle Campaign Finance Data
-Version: 1.0.9
+Version: 1.0.10
 Authors@R: 
     c(person(given = "Kiernan",
              family = "Nicholls",
@@ -38,13 +38,13 @@ VignetteBuilder: knitr
 Encoding: UTF-8
 Language: en-US
 LazyData: true
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3
 NeedsCompilation: no
-Packaged: 2022-05-24 14:46:53 UTC; kiernan
+Packaged: 2023-03-08 17:28:48 UTC; kiernan
 Author: Kiernan Nicholls [aut, cre, cph],
   Investigative Reporting Workshop [cph],
   Yanqi Xu [aut],
   Schuyler Erle [cph]
 Maintainer: Kiernan Nicholls <kiernann@protonmail.com>
 Repository: CRAN
-Date/Publication: 2022-05-24 18:50:02 UTC
+Date/Publication: 2023-03-08 17:40:11 UTC
