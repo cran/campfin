@@ -1,3 +1,9 @@
+# 1.0.11
+
+* Add "PLACE" and "PL" to the `usps_street` data frame.
+* Skip `non_ascii()` tests on OS other than Linux.
+* Fix package help documentation.
+
 # campfin 1.0.10
 
 * Make `use_diary()` more flexible with custom file name argument.

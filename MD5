@@ -1,14 +1,14 @@
-078aeb33932f75d94aa5a1849778c867 *DESCRIPTION
+48a2198fba93e09d32d11cff29d6326a *DESCRIPTION
 6fad00455ba3014f00dd02f0df17c8e1 *NAMESPACE
-818eba51c3bae06a483bbb55600f8c3c *NEWS.md
+cd7a4608478d18490a97d258255360fc *NEWS.md
 afd0bdd21d019dcb7e826a6417ada501 *R/abbrev-full.R
 5c7fb9df7e3bca78979cb51a147e7602 *R/add-prop.R
-be6ac33533e1e3587456f4dadedc10ed *R/campfin.R
+6cfe8b56e203d555eb49273b8ba48d5f *R/campfin-package.R
 6414f655c80f925ed37be5c607fea66d *R/check-city.R
 38a0a65a0013735069120f8a13cc670c *R/col-date-mdy.R
 b34ccfc1e766b4e5fba3dfde2b8f180b *R/col-stats.R
 cfcc4e60704351098a6efafad59af1bb *R/counters.R
-69e7c4f51c1535d0dbd78142a28938d7 *R/data.R
+788fa262bdc4e3603430f56754d315a7 *R/data.R
 072988ce631bfb4f9bbb98750f19f6bb *R/expand-abbrev.R
 680a39abfa4c4a6320a09ef8294cb933 *R/explore-plot.R
 a789a83d661dd2e1e7b206a75ed5bf68 *R/fetch-city.R
@@ -55,7 +55,7 @@ cb8bd8dbe65348e16d8e1ee21f457d95 *data/dark2.rda
 5ad3c608c5ce43997257c1c4947f8e01 *data/rx_zip.rda
 7beb54b13e58399ee95d3322f9750af1 *data/usps_city.rda
 8486aaf7a5bb5bc09469ffa12115ab4b *data/usps_state.rda
-4c54f4206a1f8afc55907a4db904d72f *data/usps_street.rda
+af4bf7f4ddfa6848f26545d30bbd9333 *data/usps_street.rda
 0ef156eafbbe6dd4c16d3b0f47402732 *data/valid_abb.rda
 7e9962e55e0ca0cb980de68bcfb60b9e *data/valid_city.rda
 59ee0bbd18d3a4386f244b297e75afdd *data/valid_name.rda
@@ -64,8 +64,8 @@ cb8bd8dbe65348e16d8e1ee21f457d95 *data/dark2.rda
 9212b144388b8066b3395899b5b5e12c *data/zipcodes.rda
 08fe3bde891950a81a0f20ca2770710c *inst/WORDLIST
 351d444a2f01c3c277c4db496405b479 *inst/doc/normalize-geography.R
-e90454e1c07ccb20751b5a615205c56e *inst/doc/normalize-geography.Rmd
-594c91eb7b0e37be2f499820102602e5 *inst/doc/normalize-geography.html
+bd6bf1aa7d1db5271a05c6d82f6d2e53 *inst/doc/normalize-geography.Rmd
+c7cb2be33c8086d50d787eb8f1783931 *inst/doc/normalize-geography.html
 5c31b4fc92d9daab162f960b1c270683 *inst/extdata/vt_contribs.csv
 710024dd54084c146f9aa92b6fa53498 *inst/extdata/vt_contribs.rda
 d4c9a8067e8816991a07e747655c87ad *inst/templates/template_diary.Rmd
@@ -73,7 +73,7 @@ d4c9a8067e8816991a07e747655c87ad *inst/templates/template_diary.Rmd
 6a264887830cd6925f2b8d56722de1ea *man/abbrev_state.Rd
 0a95a6eee5a254417b57bc313e9cf9f8 *man/add_prop.Rd
 70ccf28e6222413b6cec92e5f3d7d9ff *man/all_files_new.Rd
-15ba2be7a4bee9cc4c03a55fa5d27e65 *man/campfin.Rd
+9abdfba73e2f9cb719e70059ac4c2cf4 *man/campfin-package.Rd
 dc358fd77fd0ef7fb82a8b1920ab5bdd *man/check_city.Rd
 17e221c010edc178777883da4a408f1c *man/col_date_mdy.Rd
 9ce9b3bc4b26b87714aa6cf2d2ae9c96 *man/col_stats.Rd
@@ -142,7 +142,7 @@ f76050196688fca9efdbe17788d573ec *man/valid_state.Rd
 a702dcc22ef761c7eabdd361ccc40328 *man/valid_zip.Rd
 8ae3333c25e66ff60c02a6979296e465 *man/what_in.Rd
 044d05c575bbd948d00a2938e15c5487 *man/what_out.Rd
-dd28267b0b74d0a1029e88509ec1e70f *man/zipcodes.Rd
+ccd7462b692a55f8cd8f2ea428d256ca *man/zipcodes.Rd
 0622a97a2aaa3c342f09636052c2d7f5 *tests/spelling.R
 b71f6cec5069535e36c66d7a8286176c *tests/testthat.R
 0a03482d226cde60aa0a6547052fd179 *tests/testthat/test-abbrev-check.R
@@ -162,7 +162,7 @@ f89642ec6b7a4605b14f20a2889d2929 *tests/testthat/test-keypad-convert.R
 355d3881ead7bf73a620c96ecf622abb *tests/testthat/test-most-common.R
 7846267bfab77c10217f1d3efbdca4ab *tests/testthat/test-na-flag.R
 caacaab17e276923de331daa287a3bae *tests/testthat/test-new-files.R
-4e5d6bb33973cee178fbda4597d3034f *tests/testthat/test-non-ascii.R
+81b0c6be8491d2cbd4589c791a8da54d *tests/testthat/test-non-ascii.R
 ca46625d92f8d2c649d3ad6847985814 *tests/testthat/test-normal-address.R
 eab2181caad4929127ca0719288f8073 *tests/testthat/test-normal-city.R
 0b1f623a34a845745ca9295d47e15c36 *tests/testthat/test-normal-phone.R
@@ -177,4 +177,4 @@ fd08f0f7a65d7dd78e053a4005381fd3 *tests/testthat/test-regex-break.R
 54988842deed4829497d695f4e6b4f7b *tests/testthat/test-url-file-size.R
 602c03bd1d39658158ddcae6d914582a *tests/testthat/test-url-path.R
 606f4a2a3d796fabfadfa8b12b56861b *tests/testthat/test-usa-date.R
-e90454e1c07ccb20751b5a615205c56e *vignettes/normalize-geography.Rmd
+bd6bf1aa7d1db5271a05c6d82f6d2e53 *vignettes/normalize-geography.Rmd
